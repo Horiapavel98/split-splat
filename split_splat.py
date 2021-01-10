@@ -67,10 +67,6 @@ class Splitter():
                     o.write(linefeed)
                     linefeed = ''
 
-        f.close()
-        o.close()
-
-
 
 if __name__ == "__main__":
     Splitter().split_splat()
