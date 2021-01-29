@@ -27,7 +27,7 @@ class Splitter():
 
         filename = args.filename
         char_max = args.characters
-        new_name = args.rename + '.txt'
+        new_name = args.rename
 
         if char_max == None:
             char_max = 100
@@ -48,7 +48,10 @@ class Splitter():
             words = []
             for line in lines:
                 if line != '\n':
-                    words.extend(line.split())
+                    if len(line) < char_max:
+                        words.append(line)    
+                    else:
+                        words.extend(line.split())
                 else:
                     words.append(line)
 
@@ -57,7 +60,10 @@ class Splitter():
                 if len(linefeed) < char_max:
                     linefeed += word
                     if word == '\n':
-                        linefeed += '\n'
+                        o.write('\n')
+                        linefeed = ''
+                    elif '\n' in word:
+                        # linefeed += '\n'
                         o.write(linefeed)
                         linefeed = ''
                     else:
@@ -66,6 +72,15 @@ class Splitter():
                     linefeed += '\n'
                     o.write(linefeed)
                     linefeed = ''
+
+            if linefeed != '':
+                o.write('\n')
+                o.write(linefeed)
+                linefeed = ''
+                
+        f.close()
+        o.close()
+
 
 
 if __name__ == "__main__":
